@@ -1,0 +1,37 @@
+name: Gumball
+main: com.elonmuschio.gumball.Gumball
+version: '${version}'
+api-version: '1.21'
+author: elonmuschio
+description: Placeable gumball machines that grant potion effects.
+
+commands:
+  gumball:
+    description: Gumball admin command.
+    usage: /gumball <get | give | reload> [player] [color]
+
+permissions:
+  gumball.place:
+    description: Place a gumball machine.
+    default: true
+  gumball.remove:
+    description: Remove a gumball machine.
+    default: true
+  gumball.player-cooldown.bypass:
+    description: Bypass the player cooldown.
+    default: op
+  gumball.machine-cooldown.bypass:
+    description: Bypass the machine cooldown.
+    default: op
+  gumball.admin:
+    description: Access to /gumball.
+    default: op
+  gumball.get:
+    description: Use /gumball get.
+    default: op
+  gumball.give:
+    description: Use /gumball give.
+    default: op
+  gumball.reload:
+    description: Use /gumball reload.
+    default: op

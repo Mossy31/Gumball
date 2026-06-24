@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gumball Configurator</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --panel: #1a1d28;
+    --panel-2: #222634;
+    --border: #2e3344;
+    --accent: #e84d6c;
+    --accent-2: #ff6f87;
+    --text: #e6e8ef;
+    --muted: #9aa0b0;
+    --ok: #3ec97a;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    background: radial-gradient(1200px 600px at 50% -10%, #1b2030, var(--bg));
+    color: var(--text);
+    min-height: 100vh;
+    padding: 32px 16px 64px;
+  }
+  .wrap { max-width: 760px; margin: 0 auto; }
+  header { text-align: center; margin-bottom: 28px; }
+  header h1 {
+    margin: 0;
+    font-size: 28px;
+    letter-spacing: 0.5px;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  header p { margin: 6px 0 0; color: var(--muted); font-size: 14px; }
+  .card {
+    background: linear-gradient(180deg, var(--panel), var(--panel-2));
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px 22px;
+    margin-bottom: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+  }
+  .card h2 {
+    margin: 0 0 16px;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: var(--accent-2);
+  }
+  .row {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  .row label.name { color: var(--muted); font-size: 14px; }
+  input[type="text"], input[type="number"], select, textarea {
+    width: 100%;
+    background: #11131c;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    padding: 9px 11px;
+    font-size: 14px;
+    font-family: inherit;
+    transition: border-color .15s, box-shadow .15s;
+  }
+  input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(232,77,108,0.15);
+  }
+  textarea { resize: vertical; min-height: 110px; line-height: 1.5; }
+  select { cursor: pointer; }
+  /* toggle switch */
+  .switch { position: relative; display: inline-block; width: 46px; height: 26px; }
+  .switch input { display: none; }
+  .slider {
+    position: absolute; inset: 0; cursor: pointer;
+    background: #3a3f52; border-radius: 26px; transition: .2s;
+  }
+  .slider::before {
+    content: ""; position: absolute; height: 20px; width: 20px;
+    left: 3px; top: 3px; background: #fff; border-radius: 50%; transition: .2s;
+  }
+  .switch input:checked + .slider { background: var(--accent); }
+  .switch input:checked + .slider::before { transform: translateX(20px); }
+
+  .color-select-row { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+  .swatch { width: 26px; height: 26px; border-radius: 6px; border: 2px solid var(--border); flex: 0 0 auto; }
+  .color-select-row select { flex: 1; }
+  .lore-label { display: block; color: var(--muted); font-size: 13px; margin: 14px 0 6px; }
+
+  .actions { display: flex; justify-content: flex-end; gap: 12px; align-items: center; }
+  button {
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    color: #fff; border: none; border-radius: 9px;
+    padding: 11px 20px; font-size: 14px; font-weight: 600;
+    cursor: pointer; transition: transform .1s, filter .15s;
+  }
+  button:hover { filter: brightness(1.08); }
+  button:active { transform: translateY(1px); }
+  button.secondary {
+    background: transparent; border: 1px solid var(--border); color: var(--text);
+  }
+  .toast {
+    position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(20px);
+    background: var(--ok); color: #06210f; font-weight: 600;
+    padding: 12px 22px; border-radius: 10px; opacity: 0; pointer-events: none;
+    transition: opacity .25s, transform .25s;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  dialog {
+    background: var(--panel); color: var(--text);
+    border: 1px solid var(--border); border-radius: 14px;
+    padding: 0; max-width: 90vw; width: 640px;
+  }
+  dialog::backdrop { background: rgba(0,0,0,0.6); }
+  .modal-head { padding: 16px 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+  .modal-head h3 { margin: 0; font-size: 15px; }
+  pre.yaml {
+    margin: 0; padding: 18px 20px; max-height: 60vh; overflow: auto;
+    font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+    font-size: 13px; line-height: 1.55; color: #cdd3e1; white-space: pre;
+  }
+  .modal-foot { padding: 14px 20px; border-top: 1px solid var(--border); display: flex; justify-content: flex-end; gap: 10px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>🍬 Gumball Configurator</h1>
+    <p>Generate a <code>config.yml</code> for the Gumball Machines plugin</p>
+  </header>
+
+  <!-- GLOBAL SETTINGS -->
+  <section class="card">
+    <h2>Global settings</h2>
+    <div class="row">
+      <label class="name" for="player_cd">Player cooldown (s)</label>
+      <input type="number" id="player_cd" min="0" max="86400" value="0">
+    </div>
+    <div class="row">
+      <label class="name" for="anim">Animation</label>
+      <select id="anim"></select>
+    </div>
+    <div class="row">
+      <label class="name" for="part">Particle effect</label>
+      <select id="part"></select>
+    </div>
+    <div class="row">
+      <label class="name" for="launch">Launch animation</label>
+      <label class="switch"><input type="checkbox" id="launch" checked><span class="slider"></span></label>
+    </div>
+    <div class="row">
+      <label class="name" for="title">Display title</label>
+      <label class="switch"><input type="checkbox" id="title" checked><span class="slider"></span></label>
+    </div>
+    <div class="row">
+      <label class="name" for="shift">Shift to remove</label>
+      <label class="switch"><input type="checkbox" id="shift" checked><span class="slider"></span></label>
+    </div>
+    <div class="row">
+      <label class="name" for="sound">Sound (empty = off)</label>
+      <input type="text" id="sound" value="block.note_block.pling">
+    </div>
+  </section>
+
+  <!-- PER-COLOR SETTINGS -->
+  <section class="card">
+    <h2>Per-color settings</h2>
+    <div class="color-select-row">
+      <span class="swatch" id="swatch"></span>
+      <select id="color"></select>
+    </div>
+    <div class="row">
+      <label class="name" for="effect">Effect</label>
+      <input type="text" id="effect">
+    </div>
+    <div class="row">
+      <label class="name" for="amp">Amplifier (0 = I)</label>
+      <input type="number" id="amp" min="0" max="255">
+    </div>
+    <div class="row">
+      <label class="name" for="dur">Duration (s)</label>
+      <input type="number" id="dur" min="1" max="86400">
+    </div>
+    <div class="row">
+      <label class="name" for="pay_item">Payment item</label>
+      <input type="text" id="pay_item">
+    </div>
+    <div class="row">
+      <label class="name" for="pay_amount">Amount (0 = free)</label>
+      <input type="number" id="pay_amount" min="0" max="64">
+    </div>
+    <div class="row">
+      <label class="name" for="machine_cd">Machine cooldown (s)</label>
+      <input type="number" id="machine_cd" min="0" max="86400">
+    </div>
+    <label class="lore-label" for="lore">Lore (one line each):</label>
+    <textarea id="lore"></textarea>
+  </section>
+
+  <div class="actions">
+    <button class="secondary" id="preview">Preview YAML</button>
+    <button id="copy">Copy config.yml to clipboard</button>
+  </div>
+</div>
+
+<div class="toast" id="toast">config.yml copied to clipboard.</div>
+
+<dialog id="modal">
+  <div class="modal-head">
+    <h3>config.yml preview</h3>
+    <button class="secondary" id="modal-close" style="padding:4px 12px;">✕</button>
+  </div>
+  <pre class="yaml" id="yaml-out"></pre>
+  <div class="modal-foot">
+    <button id="modal-copy">Copy</button>
+  </div>
+</dialog>
+
+<script>
+const COLORS = [
+  "RED","ORANGE","YELLOW","GREEN","DARK_GREEN","LIGHT_BLUE","AQUA",
+  "DARK_AQUA","DARK_BLUE","PURPLE","MAGENTA","PINK","BROWN","GRAY",
+  "BLACK","WHITE",
+];
+const ANIMATIONS = ["SPIN","BOUNCE","SHAKE","NONE"];
+const PARTICLES = ["GUMBALLS","SPIRAL","BURST","NONE"];
+
+const DEFAULT_LORE = [
+  "&7Effect: &f%effect% %amplifier%",
+  "&7Duration: &f%duration%s",
+  "&7Cost: &f%payment%",
+];
+
+const DEFAULT_EFFECTS = {
+  RED:"STRENGTH", ORANGE:"FIRE_RESISTANCE", YELLOW:"SPEED",
+  GREEN:"REGENERATION", DARK_GREEN:"LUCK", LIGHT_BLUE:"SLOW_FALLING",
+  AQUA:"DOLPHINS_GRACE", DARK_AQUA:"WATER_BREATHING",
+  DARK_BLUE:"CONDUIT_POWER", PURPLE:"NIGHT_VISION",
+  MAGENTA:"HEALTH_BOOST", PINK:"ABSORPTION", BROWN:"RESISTANCE",
+  GRAY:"HASTE", BLACK:"INVISIBILITY", WHITE:"JUMP_BOOST",
+};
+
+// approximate CSS colors for the swatch preview
+const SWATCH = {
+  RED:"#d83c3c", ORANGE:"#e08b2c", YELLOW:"#e6d23c", GREEN:"#5fbf3c",
+  DARK_GREEN:"#2f7a2f", LIGHT_BLUE:"#7ec8f0", AQUA:"#4fd0d0",
+  DARK_AQUA:"#1f8f8f", DARK_BLUE:"#2b3fa0", PURPLE:"#8a3cc8",
+  MAGENTA:"#c83cb0", PINK:"#f08fc0", BROWN:"#8a5a2c", GRAY:"#9aa0b0",
+  BLACK:"#1c1f29", WHITE:"#f0f0f0",
+};
+
+function newColor(name) {
+  return {
+    lore: [...DEFAULT_LORE],
+    payment_item: "IRON_BLOCK",
+    payment_amount: 0,
+    effect: DEFAULT_EFFECTS[name] || "SPEED",
+    amplifier: 1,
+    duration: 60,
+    machine_cooldown: 0,
+  };
+}
+
+const settings = { sound_volume: 1.0, sound_pitch: 1.2 };
+const colors = {};
+COLORS.forEach(c => colors[c] = newColor(c));
+let current = COLORS[0];
+
+// --- element refs ---
+const $ = id => document.getElementById(id);
+const el = {
+  player_cd: $("player_cd"), anim: $("anim"), part: $("part"),
+  launch: $("launch"), title: $("title"), shift: $("shift"), sound: $("sound"),
+  color: $("color"), swatch: $("swatch"),
+  effect: $("effect"), amp: $("amp"), dur: $("dur"),
+  pay_item: $("pay_item"), pay_amount: $("pay_amount"), machine_cd: $("machine_cd"),
+  lore: $("lore"),
+};
+
+function fillSelect(sel, values) {
+  sel.innerHTML = "";
+  values.forEach(v => {
+    const o = document.createElement("option");
+    o.value = v; o.textContent = v;
+    sel.appendChild(o);
+  });
+}
+fillSelect(el.anim, ANIMATIONS); el.anim.value = "SPIN";
+fillSelect(el.part, PARTICLES); el.part.value = "GUMBALLS";
+fillSelect(el.color, COLORS);
+el.color.value = current;
+
+function intOf(v, fallback = 0) {
+  const n = parseInt(v, 10);
+  return Number.isFinite(n) ? n : fallback;
+}
+
+function storeColor(name) {
+  const c = colors[name];
+  c.effect = el.effect.value.trim().toUpperCase();
+  c.amplifier = intOf(el.amp.value);
+  c.duration = intOf(el.dur.value, 1);
+  c.payment_item = el.pay_item.value.trim().toUpperCase();
+  c.payment_amount = intOf(el.pay_amount.value);
+  c.machine_cooldown = intOf(el.machine_cd.value);
+  c.lore = el.lore.value.split("\n").filter(l => l.trim() !== "");
+}
+
+function loadColor(name) {
+  const c = colors[name];
+  el.effect.value = c.effect;
+  el.amp.value = c.amplifier;
+  el.dur.value = c.duration;
+  el.pay_item.value = c.payment_item;
+  el.pay_amount.value = c.payment_amount;
+  el.machine_cd.value = c.machine_cooldown;
+  el.lore.value = c.lore.join("\n");
+  el.swatch.style.background = SWATCH[name] || "#888";
+}
+
+el.color.addEventListener("change", () => {
+  storeColor(current);
+  current = el.color.value;
+  loadColor(current);
+});
+
+function buildYaml() {
+  storeColor(current);
+  const lines = ["settings:"];
+  lines.push(`  player-cooldown-seconds: ${intOf(el.player_cd.value)}`);
+  lines.push(`  animation: ${el.anim.value}`);
+  lines.push(`  particle-effect: ${el.part.value}`);
+  lines.push(`  launch-animation: ${el.launch.checked}`);
+  lines.push(`  display-title: ${el.title.checked}`);
+  lines.push(`  shift-to-remove: ${el.shift.checked}`);
+  lines.push("  sound:");
+  lines.push(`    type: ${el.sound.value}`);
+  lines.push(`    volume: ${settings.sound_volume}`);
+  lines.push(`    pitch: ${settings.sound_pitch}`);
+  lines.push("");
+  lines.push("colors:");
+  for (const name of COLORS) {
+    const c = colors[name];
+    lines.push(`  ${name}:`);
+    lines.push("    lore:");
+    for (const line of c.lore) lines.push(`      - "${line}"`);
+    lines.push(`    payment: { item: ${c.payment_item}, amount: ${c.payment_amount} }`);
+    lines.push(`    effect: ${c.effect}`);
+    lines.push(`    amplifier: ${c.amplifier}`);
+    lines.push(`    duration: ${c.duration}`);
+    lines.push(`    machine-cooldown: ${c.machine_cooldown}`);
+  }
+  return lines.join("\n") + "\n";
+}
+
+let toastTimer;
+function showToast(msg) {
+  const t = $("toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove("show"), 2200);
+}
+
+async function copyYaml() {
+  const yaml = buildYaml();
+  try {
+    await navigator.clipboard.writeText(yaml);
+    showToast("config.yml copied to clipboard.");
+  } catch {
+    // fallback for non-secure contexts
+    const ta = document.createElement("textarea");
+    ta.value = yaml; document.body.appendChild(ta);
+    ta.select(); document.execCommand("copy"); ta.remove();
+    showToast("config.yml copied to clipboard.");
+  }
+}
+
+$("copy").addEventListener("click", copyYaml);
+$("modal-copy").addEventListener("click", copyYaml);
+
+const modal = $("modal");
+$("preview").addEventListener("click", () => {
+  $("yaml-out").textContent = buildYaml();
+  modal.showModal();
+});
+$("modal-close").addEventListener("click", () => modal.close());
+modal.addEventListener("click", e => { if (e.target === modal) modal.close(); });
+
+loadColor(current);
+</script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+prefix: "&c&l[GUMBALL] &r"
+item-name: "&lGUMBALL &f&lMACHINE"
+title: "&lGUMBALL &f&lMACHINE"
+free: "None"
+
+no-permission: "&cYou don't have permission to do that."
+player-not-found: "&cPlayer not found."
+invalid-color: "&cInvalid color: &c&l%color%&c."
+
+reloaded: "&aConfiguration &a&lRELOADED."
+
+placed: "&7Machine &a&lPLACED"
+place-no-permission: "&7You &7&lCAN'T place &7&lMACHINES &7here."
+removed: "&7Machine &c&lREMOVED."
+remove-no-permission: "&cYou &c&lcan't &cremove this &c&lMACHINE."
+sneak-to-remove: "&7&lSNEAK &7while hitting it to remove the &7&lMACHINE."
+
+cooldown:
+  player: "&7Wait &e&l%time% &7before using another &7&lMACHINE."
+  machine: "&7This machine is recharging, &7&lWAIT &e&l%time%&c."
+
+payment:
+  not-enough: "&7You need &e&l%amount%x %item%."
+  paid: "&7You paid &e&l%amount%x %item%."
+
+effect-received: "&7You got &e&l%effect% &7for &e&l%duration%s!"
+
+time:
+  hour: "h"
+  minute: "m"
+  second: "s"
+
+effects:
+  SPEED: "Speed"
+  SLOWNESS: "Slowness"
+  HASTE: "Haste"
+  MINING_FATIGUE: "Mining Fatigue"
+  STRENGTH: "Strength"
+  JUMP_BOOST: "Jump Boost"
+  NAUSEA: "Nausea"
+  REGENERATION: "Regeneration"
+  RESISTANCE: "Resistance"
+  FIRE_RESISTANCE: "Fire Resistance"
+  WATER_BREATHING: "Water Breathing"
+  INVISIBILITY: "Invisibility"
+  BLINDNESS: "Blindness"
+  NIGHT_VISION: "Night Vision"
+  HUNGER: "Hunger"
+  WEAKNESS: "Weakness"
+  POISON: "Poison"
+  WITHER: "Wither"
+  HEALTH_BOOST: "Health Boost"
+  ABSORPTION: "Absorption"
+  SATURATION: "Saturation"
+  GLOWING: "Glowing"
+  LEVITATION: "Levitation"
+  LUCK: "Luck"
+  UNLUCK: "Bad Luck"
+  SLOW_FALLING: "Slow Falling"
+  CONDUIT_POWER: "Conduit Power"
+  DOLPHINS_GRACE: "Dolphin's Grace"
+  BAD_OMEN: "Bad Omen"
+  HERO_OF_THE_VILLAGE: "Hero of the Village"
+  DARKNESS: "Darkness"
+
+items:
+  DIAMOND_BLOCK: "Diamond Block"
+  IRON_BLOCK: "Iron Block"
+  GOLD_BLOCK: "Gold Block"
+  EMERALD_BLOCK: "Emerald Block"
+  REDSTONE_BLOCK: "Redstone Block"
+  LAPIS_BLOCK: "Lapis Block"
+  COAL_BLOCK: "Coal Block"
+  COPPER_BLOCK: "Copper Block"
+  AMETHYST_BLOCK: "Amethyst Block"

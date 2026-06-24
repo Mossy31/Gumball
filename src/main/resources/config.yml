@@ -1,0 +1,174 @@
+settings:
+  player-cooldown-seconds: 60
+  animation: SHAKES
+  particle-effect: BURST
+  launch-animation: true
+  display-title: true
+  shift-to-remove: true
+  sound:
+    type: block.note_block.pling
+    volume: 1.0
+    pitch: 1.2
+
+colors:
+  RED:
+    lore:
+      - "&7&lEffect: &f%effect% %amplifier%"
+      - "&7&lDuration: &f%duration%s"
+      - "&7&lCost: &f%payment%"
+      - "&8Place it and right-click to play!"
+    payment: { item: DIAMOND_BLOCK, amount: 1 }
+    effect: STRENGTH
+    amplifier: 2
+    duration: 60
+    machine-cooldown: 60
+  ORANGE:
+    lore:
+      - "&7&lEffect: &f%effect% %amplifier%"
+      - "&7&lDuration: &f%duration%s"
+      - "&7&lCost: &f%payment%"
+    payment: { item: DIAMOND_BLOCK, amount: 1 }
+    effect: FIRE_RESISTANCE
+    amplifier: 0
+    duration: 60
+    machine-cooldown: 60
+  YELLOW:
+    lore:
+      - "&7&lEffect: &f%effect% %amplifier%"
+      - "&7&lDuration: &f%duration%s"
+      - "&7&lCost: &f%payment%"
+    payment: { item: DIAMOND_BLOCK, amount: 1 }
+    effect: SPEED
+    amplifier: 2
+    duration: 60
+    machine-cooldown: 60
+  GREEN:
+    lore:
+      - "&7&lEffect: &f%effect% %amplifier%"
+      - "&7&lDuration: &f%duration%s"
+      - "&7&lCost: &f%payment%"
+    payment: { item: DIAMOND_BLOCK, amount: 1 }
+    effect: REGENERATION
+    amplifier: 1
+    duration: 30
+    machine-cooldown: 60
+  DARK_GREEN:
+    lore:
+      - "&7&lEffect: &f%effect% %amplifier%"
+      - "&7&lDuration: &f%duration%s"
+      - "&7&lCost: &f%payment%"
+    payment: { item: DIAMOND_BLOCK, amount: 1 }
+    effect: LUCK
+    amplifier: 2
+    duration: 120
+    machine-cooldown: 60
+  LIGHT_BLUE:
+    lore:
+      - "&7&lEffect: &f%effect% %amplifier%"
+      - "&7&lDuration: &f%duration%s"
+      - "&7&lCost: &f%payment%"
+    payment: { item: DIAMOND_BLOCK, amount: 1 }
+    effect: SLOW_FALLING
+    amplifier: 0
+    duration: 60
+    machine-cooldown: 60
+  AQUA:
+    lore:
+      - "&7&lEffect: &f%effect% %amplifier%"
+      - "&7&lDuration: &f%duration%s"
+      - "&7&lCost: &f%payment%"
+    payment: { item: DIAMOND_BLOCK, amount: 1 }
+    effect: DOLPHINS_GRACE
+    amplifier: 1
+    duration: 60
+    machine-cooldown: 60
+  DARK_AQUA:
+    lore:
+      - "&7&lEffect: &f%effect% %amplifier%"
+      - "&7&lDuration: &f%duration%s"
+      - "&7&lCost: &f%payment%"
+    payment: { item: DIAMOND_BLOCK, amount: 1 }
+    effect: WATER_BREATHING
+    amplifier: 0
+    duration: 90
+    machine-cooldown: 60
+  DARK_BLUE:
+    lore:
+      - "&7&lEffect: &f%effect% %amplifier%"
+      - "&7&lDuration: &f%duration%s"
+      - "&7&lCost: &f%payment%"
+    payment: { item: DIAMOND_BLOCK, amount: 1 }
+    effect: CONDUIT_POWER
+    amplifier: 0
+    duration: 60
+    machine-cooldown: 60
+  PURPLE:
+    lore:
+      - "&7&lEffect: &f%effect% %amplifier%"
+      - "&7&lDuration: &f%duration%s"
+      - "&7&lCost: &f%payment%"
+    payment: { item: DIAMOND_BLOCK, amount: 1 }
+    effect: NIGHT_VISION
+    amplifier: 0
+    duration: 120
+    machine-cooldown: 60
+  MAGENTA:
+    lore:
+      - "&7&lEffect: &f%effect% %amplifier%"
+      - "&7&lDuration: &f%duration%s"
+      - "&7&lCost: &f%payment%"
+    payment: { item: DIAMOND_BLOCK, amount: 1 }
+    effect: HEALTH_BOOST
+    amplifier: 2
+    duration: 120
+    machine-cooldown: 60
+  PINK:
+    lore:
+      - "&7&lEffect: &f%effect% %amplifier%"
+      - "&7&lDuration: &f%duration%s"
+      - "&7&lCost: &f%payment%"
+    payment: { item: DIAMOND_BLOCK, amount: 1 }
+    effect: ABSORPTION
+    amplifier: 2
+    duration: 60
+    machine-cooldown: 60
+  BROWN:
+    lore:
+      - "&7&lEffect: &f%effect% %amplifier%"
+      - "&7&lDuration: &f%duration%s"
+      - "&7&lCost: &f%payment%"
+    payment: { item: DIAMOND_BLOCK, amount: 1 }
+    effect: RESISTANCE
+    amplifier: 1
+    duration: 60
+    machine-cooldown: 60
+  GRAY:
+    lore:
+      - "&7&lEffect: &f%effect% %amplifier%"
+      - "&7&lDuration: &f%duration%s"
+      - "&7&lCost: &f%payment%"
+    payment: { item: DIAMOND_BLOCK, amount: 1 }
+    effect: HASTE
+    amplifier: 2
+    duration: 60
+    machine-cooldown: 60
+  BLACK:
+    lore:
+      - "&7&lEffect: &f%effect% %amplifier%"
+      - "&7&lDuration: &f%duration%s"
+      - "&7&lCost: &f%payment%"
+    payment: { item: DIAMOND_BLOCK, amount: 1 }
+    effect: INVISIBILITY
+    amplifier: 0
+    duration: 60
+    machine-cooldown: 60
+  WHITE:
+    lore:
+      - "&7&lEffect: &f%effect% %amplifier%"
+      - "&7&lDuration: &f%duration%s"
+      - "&7&lCost: &f%payment%"
+    payment: { item: DIAMOND_BLOCK, amount: 1 }
+    effect: JUMP_BOOST
+    amplifier: 2
+    duration: 60
+    machine-cooldown: 60

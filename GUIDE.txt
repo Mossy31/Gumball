@@ -1,0 +1,85 @@
+=====================================================================
+ GUMBALL - How to configure the YAML files
+=====================================================================
+
+The plugin generates two files in plugins/Gumball/ on first start:
+  config.yml    settings and per-color machines
+  messages.yml  chat texts and effect display names
+
+After editing either file, run /gumball reload in game.
+
+You can also build config.yml visually with tools/Gumball.py
+
+---------------------------------------------------------------------
+ config.yml -> settings
+---------------------------------------------------------------------
+player-cooldown-seconds  Wait time per player between uses (0 = none).
+animation                Head animation on click: SPIN, BOUNCE, SHAKE, NONE.
+particle-effect          Particles on click: SPIRAL, BURST, GUMBALLS, NONE.
+launch-animation         true = shoot a gumball at the player before the effect.
+display-title            true = show the floating title above the machine.
+shift-to-remove          true = the player must sneak while hitting it to remove it.
+sound.type               Sound played on click
+sound.volume             Sound volume.
+sound.pitch              Sound pitch.
+
+---------------------------------------------------------------------
+ config.yml -> colors
+---------------------------------------------------------------------
+There are 16 colors:
+RED, ORANGE, YELLOW, GREEN, DARK_GREEN, LIGHT_BLUE, AQUA, DARK_AQUA, DARK_BLUE, PURPLE, MAGENTA, PINK, BROWN, GRAY, BLACK, WHITE.
+
+Color:
+
+  lore: Item description lines. Placeholders you can use:
+          - %effect%  %duration%  %amplifier%  %payment%
+
+  payment.item: Item required to use the machine.
+
+  payment.amount: Amount required.
+
+  effect: Potion effect granted (STRENGTH, SPEED, MINING_FATIGUE, HASTE, JUMP_BOOST).
+
+  amplifier: Effect level (0 = I, 1 = II, 2 = III).
+
+  duration: Effect duration in seconds.
+
+  machine-cooldown: Recharge time of that single machine in seconds.
+
+Example:
+  RED:
+    lore:
+      - "&7Effect: &f%effect% %amplifier%"
+      - "&7Cost: &f%payment%"
+    payment: {item: DIAMOND, amount: 2}
+    effect: STRENGTH
+    amplifier: 2
+    duration: 60
+    machine-cooldown: 30
+
+
+---------------------------------------------------------------------
+ messages.yml
+---------------------------------------------------------------------
+1) Holds every chat message and the effect display names.
+2) Color codes use the '&' symbol.
+3) Edit the text on the right of each key; keep the keys.
+4) And the placeholders (%time%, %amount%, %item%, %effect%, %duration%, %color%) unchanged.
+
+---------------------------------------------------------------------
+ messages.yml -> items
+---------------------------------------------------------------------
+Display names for payment items, shown in the lore (%payment%) and in
+the payment chat messages (%item%).
+
+Any item NOT listed here is formatted automatically from its id, so
+DIAMOND_BLOCK becomes "Diamond Block". Add an entry only when you want
+a different name.
+
+Key   = the Minecraft item id used in config.yml (payment.item).
+Value = the text shown to players.
+
+Example:
+  items:
+    DIAMOND_BLOCK: "Diamond Block"
+    GOLD_BLOCK: "Block of Gold"
